@@ -34,9 +34,6 @@ services:
       # Replace with your actual public IP or domain
       - EXTERNAL_IP=your.public.ip.here
 
-      # Logging
-      - DEBUG_LEVEL=INFO
-
     # Health check
     healthcheck:
       test: ["CMD", "netstat", "-an", "|", "grep", ":3478"]

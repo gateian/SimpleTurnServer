@@ -37,7 +37,6 @@ ENV MAX_PORT=65535
 ENV TURN_USERNAME=myuser
 ENV TURN_PASSWORD=mypassword
 ENV REALM=localhost
-ENV DEBUG_LEVEL=INFO
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
