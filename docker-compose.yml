@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  turn-server:
+    build: .
+    # Uncomment the next line if you've pushed to a registry
+    # image: your-registry/turn-server:latest
+    container_name: turn-server
+    restart: unless-stopped
+
+    # Network mode host is recommended for TURN servers for better NAT traversal
+    # Comment out 'network_mode: host' and uncomment 'ports' section if you prefer port mapping
+    network_mode: host
+
+    # Alternative port mapping (comment out if using network_mode: host)
+    # ports:
+    #   - "3478:3478/tcp"
+    #   - "3478:3478/udp"
+    #   - "49152-65535:49152-65535/udp"  # Media relay port range
+    #   - "49152-65535:49152-65535/tcp"  # Media relay port range
+
+    environment:
+      # TURN Server Configuration
+      - TURN_PORT=3478
+      - MIN_PORT=49152
+      - MAX_PORT=65535
+
+      # Authentication (CHANGE THESE IN PRODUCTION!)
+      - TURN_USERNAME=myuser
+      - TURN_PASSWORD=mypassword
+      - REALM=localhost
+
+      # Your external/public IP address (REQUIRED for clients outside your network)
+      # Replace with your actual public IP or domain
+      - EXTERNAL_IP=your.public.ip.here
+
+      # Logging
+      - DEBUG_LEVEL=INFO
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "netstat", "-an", "|", "grep", ":3478"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # Optional: Add labels for better organization in Portainer
+    labels:
+      - "com.docker.compose.project=turn-server"
+      - "service.name=turn-server"
+      - "service.type=networking"
