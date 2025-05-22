@@ -21,18 +21,18 @@ services:
 
     environment:
       # TURN Server Configuration
-      - TURN_PORT=3478
-      - MIN_PORT=49152
-      - MAX_PORT=65535
+      - TURN_PORT=${TURN_PORT:-3478}
+      - MIN_PORT=${MIN_PORT:-49152}
+      - MAX_PORT=${MAX_PORT:-65535}
 
       # Authentication (CHANGE THESE IN PRODUCTION!)
-      - TURN_USERNAME=myuser
-      - TURN_PASSWORD=mypassword
-      - REALM=localhost
+      - TURN_USERNAME=${TURN_USERNAME:-myuser}
+      - TURN_PASSWORD=${TURN_PASSWORD:-mypassword}
+      - REALM=${REALM:-localhost}
 
       # Your external/public IP address (REQUIRED for clients outside your network)
       # Replace with your actual public IP or domain
-      - EXTERNAL_IP=your.public.ip.here
+      - EXTERNAL_IP=${EXTERNAL_IP:-your.public.ip.here}
 
     # Health check
     healthcheck:
